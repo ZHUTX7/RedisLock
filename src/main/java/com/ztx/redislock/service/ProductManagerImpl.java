@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class ProductManagerImpl implements ProductManager{
@@ -26,8 +27,8 @@ public class ProductManagerImpl implements ProductManager{
     public String SellProduct(int id)  {
         Product product =null;
         boolean flag = false;
-        //if(lockService.getLock(id)){
-            if(true){
+        if(lockService.getLock(id)){
+
             try{
                 product =  productRepo.getProduct(id);
                 if(product.getSum()>0){
@@ -62,5 +63,23 @@ public class ProductManagerImpl implements ProductManager{
     @Override
     public String StockProduct(int id) {
         return "";
+    }
+
+    @Override
+    public Product findProduct(int id) {
+        System.out.println("从数据库中查询");
+        return  productRepo.getProduct(id);
+    }
+
+    @Override
+    public Product findProduct(String name) {
+        System.out.println("从数据库中查询");
+        return productRepo.getProduct2(name);
+
+    }
+
+    @Override
+    public List<Product> findAllProduct() {
+        return  productRepo.getAllProduct();
     }
 }
